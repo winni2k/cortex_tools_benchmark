@@ -1,0 +1,41 @@
+{
+    "_meta": {
+        "hash": {
+            "sha256": "851bdc55ee778c69394b2d3c7075fa0992e476278eefe4a919fb1516cff81310"
+        },
+        "requires": {},
+        "sources": [
+            {
+                "url": "https://pypi.python.org/simple",
+                "verify_ssl": true
+            }
+        ]
+    },
+    "default": {
+        "attrs": {
+            "version": "==17.4.0"
+        },
+        "pluggy": {
+            "version": "==0.6.0"
+        },
+        "py": {
+            "version": "==1.5.2"
+        },
+        "py-cpuinfo": {
+            "version": "==3.3.0"
+        },
+        "pytest": {
+            "version": "==3.3.2"
+        },
+        "pytest-benchmark": {
+            "version": "==3.1.1"
+        },
+        "setuptools": {
+            "version": "==38.4.0"
+        },
+        "six": {
+            "version": "==1.11.0"
+        }
+    },
+    "develop": {}
+}
