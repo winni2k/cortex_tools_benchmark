@@ -7,7 +7,7 @@ benchmark:
 	$(TEST_COMMAND) benchmark
 
 setup: cortexpy
-	$(MAKE) download-fixtures
+	$(MAKE) get-fixtures
 	$(MAKE) fixtures
 
 cortexpy:
