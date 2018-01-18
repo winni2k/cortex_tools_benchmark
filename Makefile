@@ -1,17 +1,19 @@
 MCCORTEX := ./bin/mccortex63
 PIP := pip3
 FIXTURE_PACKAGE := down/cortex-tools-fixtures.tar.bz2
-TEST_COMMAND := pytest --benchmark-autosave
+PY_ENV := pipenv run
+TEST_COMMAND := $(PY_ENV) pytest --benchmark-autosave
 
 benchmark:
 	$(TEST_COMMAND) benchmark
 
-setup: cortexpy
+setup: python-dependencies
 	$(MAKE) get-fixtures
 	$(MAKE) fixtures
 
-cortexpy:
-	$(PIP) install cortexpy
+python-dependencies:
+	pipenv install
+	$(PY_ENV) $(PIP) install cortexpy
 
 $(FIXTURE_PACKAGE):
 	cd down; gdrive download $(FIXTURE_PACKAGE_GDRIVE_ID)
@@ -20,7 +22,7 @@ get-fixtures: $(FIXTURE_PACKAGE)
 	tar -xf $^
 
 package-fixtures:
-	find fixtures -type f -name '*.fna' |xargs tar -cjf $(FIXTURE_PACKAGE)
+	find fixtures -type f -name '*.fna' | xargs tar -cjf $(FIXTURE_PACKAGE)
 
 fixtures: fixtures/Pabies_coding_sequence/Pabies1.0-all-cds.ctx
 
