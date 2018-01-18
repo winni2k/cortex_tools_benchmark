@@ -16,7 +16,7 @@ python-dependencies:
 	$(PY_ENV) $(PIP) install cortexpy
 
 $(FIXTURE_PACKAGE):
-	cd down; gdrive download $(FIXTURE_PACKAGE_GDRIVE_ID)
+	cd down; gdrive --service-account $(GDRIVE_ACCOUNT_CREDENTIALS_JSON) download $(FIXTURE_PACKAGE_GDRIVE_ID)
 
 get-fixtures: $(FIXTURE_PACKAGE)
 	tar -xf $^
