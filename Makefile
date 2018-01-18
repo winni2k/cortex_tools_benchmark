@@ -1,4 +1,4 @@
-MCCORTEX := ./bin/mccortex63
+MCCORTEX := ../bin/mccortex 63
 PIP := pip3
 FIXTURE_PACKAGE := down/cortex-tools-fixtures.tar.bz2
 PY_ENV := pipenv run
