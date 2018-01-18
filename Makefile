@@ -35,10 +35,12 @@ fixtures/Pabies_coding_sequence/Pabies1.0-all-cds.ctx: fixtures/Pabies_coding_se
 	$(MCCORTEX) build --force --sort --memory 2G -k 47 --sample pabies_reference_cds --seq $< $@
 
 get-results:
-	gdrive --service-account $(GDRIVE_ACCOUNT_CREDENTIALS_JSON) download --recursive 1FtGZADwzP-MLWtm6D7CzO1Q6g5PZtyBh
+	gdrive --service-account $(GDRIVE_ACCOUNT_CREDENTIALS_JSON) download --force '1W8z5a34gEs3kGyxfqIQ5_VBdP2F8iWYD'
+	tar -xf .benchmarks.tar.gz
 
 upload-results:
-	gdrive --service-account $(GDRIVE_ACCOUNT_CREDENTIALS_JSON) upload -p '1gknsuxXdi-EWJaBBVJ55RGEdb0DG4nh4' -r .benchmarks
+	tar -czf .benchmarks.tar.gz .benchmarks
+	gdrive --service-account $(GDRIVE_ACCOUNT_CREDENTIALS_JSON) update '1W8z5a34gEs3kGyxfqIQ5_VBdP2F8iWYD' .benchmarks.tar.gz
 
 
 
