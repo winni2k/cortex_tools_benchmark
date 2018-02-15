@@ -5,7 +5,7 @@ IFS=$'\n\t'
 
 scripts/bootstrap
 
-MCCORTEX=${MCCORTEX:-'../bin/mccortex 63'}
+MCCORTEX=${MCCORTEX:-'../bin/mccortex	63'}
 
 gdrive --service-account $GDRIVE_ACCOUNT_CREDENTIALS_JSON download --force '1W8z5a34gEs3kGyxfqIQ5_VBdP2F8iWYD'
 tar -xf .benchmarks.tar.gz

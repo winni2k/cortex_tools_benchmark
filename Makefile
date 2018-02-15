@@ -1,4 +1,5 @@
 FIXTURE_PACKAGE := down/cortex-tools-fixtures.tar.bz2
+FIXTURE_MANIFEST := fixtures/manifest.txt
 PY_ENV := pipenv run
 TEST_COMMAND := $(PY_ENV) pytest --benchmark-autosave
 BENCHMARK_COMMAND := $(PY_ENV) pytest-benchmark
@@ -13,7 +14,10 @@ setup:
 	scripts/setup
 
 package-fixtures:
-	find fixtures -type f -name '*.fna' | xargs tar -cjf $(FIXTURE_PACKAGE)
+	tar -cjf $(FIXTURE_PACKAGE) $$(cat $FIXTURE_MANIFEST)
+
+upload-fixtures:
+	echo "do it manually!"
 
 upload-results:
 	tar -czf .benchmarks.tar.gz .benchmarks
