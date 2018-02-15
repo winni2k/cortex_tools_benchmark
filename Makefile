@@ -1,7 +1,8 @@
 FIXTURE_PACKAGE := down/cortex-tools-fixtures.tar.bz2
 FIXTURE_MANIFEST := fixtures/manifest.txt
 PY_ENV := pipenv run
-TEST_COMMAND := $(PY_ENV) pytest --benchmark-autosave
+PYTEST := $(PY_ENV) pytest
+TEST_COMMAND := $(PYTEST) --benchmark-autosave
 BENCHMARK_COMMAND := $(PY_ENV) pytest-benchmark
 
 benchmark:
@@ -12,6 +13,9 @@ compare:
 
 setup:
 	scripts/setup
+
+test-fixtures:
+	$(PYTEST) test
 
 package-fixtures:
 	tar -cjf $(FIXTURE_PACKAGE) $$(cat $FIXTURE_MANIFEST)

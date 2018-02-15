@@ -52,3 +52,4 @@ def test_assembly_with_ten_colors(benchmark):
                     '--max-nodes',
                     1000]
     benchmark(cortexpy.__main__.main, [str(a) for a in cmdline_args])
+
