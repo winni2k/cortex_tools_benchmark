@@ -1,20 +1,16 @@
 import cortexpy.__main__
 
+from ...commands import build_traverse_command
+
 PABIES_CDS = 'fixtures/Pabies_coding_sequence/Pabies1.0-all-cds.ctx'
 
 
-def test_442_base_unitig(benchmark):
+def test_442_base_unitig(benchmark, tmpdir):
+    intermediate_graph = tmpdir / 'traversal.pickle'
     initial_kmer = 'ATGGAGGCCGTGAAATCTTTGGAGGATGTGTTCGGCATGAAGGGTGG'
-    cmdline_args = ['view',
-                    'traversal',
-                    PABIES_CDS,
-                    initial_kmer,
-                    '--output-type',
-                    'kmers',
-                    '--output-format',
-                    'json',
-                    '--colors',
-                    '0',
-                    '--max-nodes',
-                    '1000']
-    benchmark(cortexpy.__main__.main, cmdline_args)
+    traverse_args = build_traverse_command(graphs=[PABIES_CDS],
+                                           initial_kmers=initial_kmer,
+                                           colors=[0],
+                                           out=intermediate_graph)
+    benchmark(cortexpy.__main__.main, [str(a) for a in traverse_args])
+    # print_traversal(intermediate_graph)
