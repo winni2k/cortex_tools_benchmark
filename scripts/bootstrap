@@ -5,3 +5,16 @@ IFS=$'\n\t'
 
 pipenv install
 pipenv run pip3 install cortexpy
+
+mkdir -p lib
+mkdir -p opt
+pushd lib
+wget https://github.com/mcveanlab/CortexJDK/archive/v0.3-alpha.tar.gz
+tar xf v0.3-alpha.tar.gz
+pushd CortexJDK-0.3-alpha
+ant
+cp dist/cortexjdk.jar ../../opt/cortexjdk.jar
+popd
+popd
+
+

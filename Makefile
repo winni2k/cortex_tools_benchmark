@@ -18,7 +18,7 @@ test-fixtures:
 	$(PYTEST) test
 
 package-fixtures:
-	tar -cjf $(FIXTURE_PACKAGE) $$(cat $FIXTURE_MANIFEST)
+	tar -cjf $(FIXTURE_PACKAGE) $$(cat $(FIXTURE_MANIFEST))
 
 upload-fixtures:
 	echo "do it manually!"

@@ -5,7 +5,6 @@ IFS=$'\n\t'
 
 scripts/bootstrap
 
-MCCORTEX=${MCCORTEX:-'../bin/mccortex	63'}
 
 gdrive --service-account $GDRIVE_ACCOUNT_CREDENTIALS_JSON download --force '1W8z5a34gEs3kGyxfqIQ5_VBdP2F8iWYD'
 tar -xf .benchmarks.tar.gz
@@ -15,11 +14,4 @@ gdrive --service-account $GDRIVE_ACCOUNT_CREDENTIALS_JSON download --force $FIXT
 popd
 tar -xf down/cortex-tools-fixtures.tar.bz2
 
-FIXTURE_DIR=fixtures/Pabies_coding_sequence
-$MCCORTEX build --force --sort --memory 2G -k 47 --sample pabies_reference_cds \
-    --seq $FIXTURE_DIR/Pabies1.0-all-cds.fna \
-    $FIXTURE_DIR/Pabies1.0-all-cds.ctx
-
-
-
-
+scripts/build_fixtures
