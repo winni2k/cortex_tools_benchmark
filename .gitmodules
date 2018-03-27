@@ -1,0 +1,3 @@
+[submodule "lib/mccortex"]
+	path = lib/mccortex
+	url = https://github.com/mcveanlab/mccortex.git

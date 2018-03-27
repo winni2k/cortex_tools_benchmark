@@ -3,13 +3,15 @@
 set -euxo pipefail
 IFS=$'\n\t'
 
+git submodule update --init --recursive
+
 pipenv install
 pipenv run pip3 install cortexpy
 
 mkdir -p lib
 mkdir -p opt
 pushd lib
-wget https://github.com/mcveanlab/CortexJDK/archive/v0.3-alpha.tar.gz
+wget -c https://github.com/mcveanlab/CortexJDK/archive/v0.3-alpha.tar.gz -O v0.3-alpha.tar.gz
 tar xf v0.3-alpha.tar.gz
 pushd CortexJDK-0.3-alpha
 ant
@@ -17,4 +19,5 @@ cp dist/cortexjdk.jar ../../opt/cortexjdk.jar
 popd
 popd
 
-
+make -C lib/mccortex
+cp lib/mccortex/bin/mccortex* bin

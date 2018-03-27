@@ -3,7 +3,7 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-MCCORTEX=${MCCORTEX:-'./bin/mccortex63'}
+MCCORTEX=${MCCORTEX:-'mccortex63'}
 
 FIXTURE_DIR=fixtures/Pabies_coding_sequence
 $MCCORTEX build --force --sort --memory 2G -k 47 --sample pabies_reference_cds \
