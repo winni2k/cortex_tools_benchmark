@@ -1,7 +1,7 @@
 import cortexpy.__main__
 import os
 
-from ...commands import CortexpyCommandBuilder, MccortexCommandBuilder, CortexjdkCommandBuilder
+from benchmark.commands import CortexpyCommandBuilder, MccortexCommandBuilder, CortexjdkCommandBuilder
 
 CHROM_GRAPH = 'fixtures/yeast/NC_001133.9.1kbp.ctx'
 INITIAL_KMER = 'CCACACCACACCCACACACCCACACACCACACCACACACCACACCAC'

@@ -11,9 +11,11 @@ def test_cortexpy_view_graph(benchmark):
     cmd = ' '.join([str(a) for a in print_args])
     benchmark.pedantic(os.system, args=(cmd,), iterations=2)
 
+
 def test_mccortex_view(benchmark):
     print_args = MccortexCommandBuilder().view_command(graph=CHROM_GRAPH)
     benchmark(os.system, ' '.join([str(a) for a in print_args]))
+
 
 def test_cortexjdk_view(benchmark):
     print_args = CortexjdkCommandBuilder().view_command(graph=CHROM_GRAPH)

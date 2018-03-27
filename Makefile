@@ -8,6 +8,9 @@ BENCHMARK_COMMAND := $(PY_ENV) pytest-benchmark
 benchmark:
 	$(TEST_COMMAND) benchmark
 
+benchmark-unit:
+	$(TEST_COMMAND) benchmark/test_unit
+
 compare:
 	$(BENCHMARK_COMMAND) compare
 
