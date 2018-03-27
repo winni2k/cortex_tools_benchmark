@@ -3,7 +3,12 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-MCCORTEX=${MCCORTEX:-'mccortex63'}
+MCCORTEX=${MCCORTEX:-'./bin/mccortex63'}
+
+pushd down
+gdrive --service-account $GDRIVE_ACCOUNT_CREDENTIALS_JSON download --force $FIXTURE_PACKAGE_GDRIVE_ID
+popd
+tar -xf down/cortex-tools-fixtures.tar.bz2
 
 FIXTURE_DIR=fixtures/Pabies_coding_sequence
 $MCCORTEX build --force --sort --memory 2G -k 47 --sample pabies_reference_cds \

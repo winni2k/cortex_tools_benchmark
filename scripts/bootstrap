@@ -19,5 +19,5 @@ cp dist/cortexjdk.jar ../../opt/cortexjdk.jar
 popd
 popd
 
-make -C lib/mccortex
+make MAXK=63 -C lib/mccortex
 cp lib/mccortex/bin/mccortex* bin

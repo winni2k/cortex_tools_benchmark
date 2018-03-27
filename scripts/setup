@@ -9,9 +9,4 @@ scripts/bootstrap
 gdrive --service-account $GDRIVE_ACCOUNT_CREDENTIALS_JSON download --force '1W8z5a34gEs3kGyxfqIQ5_VBdP2F8iWYD'
 tar -xf .benchmarks.tar.gz
 
-pushd down
-gdrive --service-account $GDRIVE_ACCOUNT_CREDENTIALS_JSON download --force $FIXTURE_PACKAGE_GDRIVE_ID
-popd
-tar -xf down/cortex-tools-fixtures.tar.bz2
-
 scripts/build_fixtures
