@@ -1,49 +1,71 @@
 import io
 import itertools
 import pytest
-from cortexpy.graph.parser.streaming import kmer_generator_from_stream
+from cortexpy.graph.parser.streaming import (
+    kmer_generator_from_stream_and_header,
+    kmer_list_generator_from_stream_and_header,
+)
+from cortexpy.graph.parser.header import from_stream
 
 CHROM_GRAPH_1KB = 'fixtures/yeast/NC_001133.9.1kbp.ctx'
 CHROM_GRAPH_4KB = 'fixtures/yeast/NC_001133.9.4kbp.ctx'
 INITIAL_KMER = 'CCACACCACACCCACACACCCACACACCACACCACACACCACACCAC'
 
 
-def stream(buffer):
+def stream(buffer, header):
     buffer.seek(0)
-    for _ in kmer_generator_from_stream(buffer):
+    for _ in kmer_generator_from_stream_and_header(buffer, header):
         pass
 
 
-def stream_kmers(buffer):
+def stream_kmer_lists(buffer, header):
     buffer.seek(0)
-    for kmer in kmer_generator_from_stream(buffer):
+    for _ in kmer_list_generator_from_stream_and_header(buffer, header):
+        pass
+
+
+def stream_kmer_tuples(buffer, header):
+    buffer.seek(0)
+    for kmer_list in kmer_list_generator_from_stream_and_header(buffer, header):
+        tuple(kmer_list)
+
+
+def stream_kmer_strings(buffer, header):
+    buffer.seek(0)
+    for kmer_list in kmer_list_generator_from_stream_and_header(buffer, header):
+        ''.join(kmer_list)
+
+
+def stream_kmers(buffer, header):
+    buffer.seek(0)
+    for kmer in kmer_generator_from_stream_and_header(buffer, header):
         kmer.kmer
 
 
-def stream_kmers_and_add_to_set(buffer):
+def stream_kmers_and_add_to_set(buffer, header):
     kmers = set()
     buffer.seek(0)
-    for kmer in kmer_generator_from_stream(buffer):
+    for kmer in kmer_generator_from_stream_and_header(buffer, header):
         kmers.add(kmer.kmer)
 
 
-def stream_kmers_and_coverage(buffer):
+def stream_kmers_and_coverage(buffer, header):
     buffer.seek(0)
-    for kmer in kmer_generator_from_stream(buffer):
+    for kmer in kmer_generator_from_stream_and_header(buffer, header):
         kmer.kmer
         kmer.coverage
 
 
-def stream_kmers_and_edges(buffer):
+def stream_kmers_and_edges(buffer, header):
     buffer.seek(0)
-    for kmer in kmer_generator_from_stream(buffer):
+    for kmer in kmer_generator_from_stream_and_header(buffer, header):
         kmer.kmer
         kmer.edges
 
 
-def stream_kmers_and_coverage_and_edges(buffer):
+def stream_kmers_and_coverage_and_edges(buffer, header):
     buffer.seek(0)
-    for kmer in kmer_generator_from_stream(buffer):
+    for kmer in kmer_generator_from_stream_and_header(buffer, header):
         kmer.kmer
         kmer.coverage
         kmer.edges
@@ -56,6 +78,9 @@ GRAPHS = {
 
 FUNCS = {
     'pass': stream,
+    'kmer_lists': stream_kmer_lists,
+    'kmer_tuples': stream_kmer_tuples,
+    'kmer_strings': stream_kmer_strings,
     'kmers': stream_kmers,
     'kmers+set': stream_kmers_and_add_to_set,
     'kmers+cov': stream_kmers_and_coverage,
@@ -70,4 +95,6 @@ def test_graph_parser_streaming(benchmark, graph_size, func_type):
     graph = GRAPHS[graph_size]
     func = FUNCS[func_type]
     buffer = io.BytesIO(open(graph, 'rb').read())
-    benchmark(func, buffer)
+    header = from_stream(buffer)
+    buffer = io.BytesIO(buffer.read())
+    benchmark(func, buffer, header)
