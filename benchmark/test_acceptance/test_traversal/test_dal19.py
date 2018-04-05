@@ -8,11 +8,10 @@ dal19_psi_kmer = 'TATGCAAAAAATGTTGGAGAGGTATCAAAAGTATTCACAAGAAAGTG'
 def test_assembly_with_one_color(benchmark, tmpdir):
     intermediate_graph = tmpdir / 'traversal.pickle'
     traverse_args = build_traverse_command(graphs=[DAL19_GRAPH],
-                                            initial_kmers=dal19_psi_kmer,
-                                            colors=[5],
-                                            out=intermediate_graph)
+                                           initial_kmers=dal19_psi_kmer,
+                                           colors=[5],
+                                           out=intermediate_graph)
     benchmark(cortexpy.__main__.main, [str(a) for a in traverse_args])
-    # print_traversal(intermediate_graph)
 
 
 def test_assembly_with_two_colors(benchmark, tmpdir):
@@ -22,7 +21,6 @@ def test_assembly_with_two_colors(benchmark, tmpdir):
                                            colors=[0, 5],
                                            out=intermediate_graph)
     benchmark(cortexpy.__main__.main, [str(a) for a in traverse_args])
-    # print_traversal(intermediate_graph)
 
 
 def test_assembly_with_ten_colors(benchmark, tmpdir):
@@ -32,4 +30,3 @@ def test_assembly_with_ten_colors(benchmark, tmpdir):
                                            colors=list(range(10)),
                                            out=intermediate_graph)
     benchmark(cortexpy.__main__.main, [str(a) for a in traverse_args])
-    # print_traversal(intermediate_graph)

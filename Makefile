@@ -8,6 +8,9 @@ BENCHMARK_COMMAND := $(PY_ENV) pytest-benchmark
 benchmark:
 	$(TEST_COMMAND) benchmark
 
+benchmark-profile:
+	$(TEST_COMMAND) --profile benchmark
+
 benchmark-unit:
 	$(TEST_COMMAND) benchmark/test_unit
 

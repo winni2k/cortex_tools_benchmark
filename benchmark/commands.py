@@ -11,36 +11,27 @@ def print_traversal(traversal_graph):
     cortexpy.__main__.main([str(a) for a in view_args])
 
 
-def build_traverse_command(*, graphs, initial_kmers, colors=None, out):
-    args = ['cortexpy', 'traverse',
-            initial_kmers,
-            '--colors',
-            ','.join([str(n) for n in colors]),
-            '--out', str(out)] + ['--graph {}'.format(g) for g in graphs]
-    return args
+def build_traverse_command(*, graphs, initial_kmers, out, colors=None):
+    return CortexpyCommandBuilder().traverse(graphs=graphs, initial_contig=initial_kmers,
+                                             colors=colors, out=out)
 
 
 @attr.s(slots=True)
 class CortexpyCommandBuilder(object):
-    cortexpy_binary = attr.ib('cortexpy')
-    unit_testing = attr.ib(False)
-
     def get_command(self, *args):
-        cmd = []
-        if not self.unit_testing:
-            cmd.append(self.cortexpy_binary)
-        cmd += args
-        return cmd
+        return args
 
     def view_graph(self, *, graph):
         return self.get_command('view', 'graph', graph)
 
-    def traverse(self, *, graphs, initial_contig):
-        args = ['traverse', '-v']
+    def traverse(self, *, graphs, initial_contig, out='/dev/null', colors=None):
+        args = ['traverse', '-v', initial_contig]
         for g in graphs:
-            args += ['--graph', g]
-        args += ['--out', '/dev/null']
-        args.append(initial_contig)
+            args += ['--graphs', g]
+        args += ['--out', out]
+        if colors:
+            args.append('--colors')
+            args += colors
         return self.get_command(*args)
 
 

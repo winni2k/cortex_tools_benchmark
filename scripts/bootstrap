@@ -6,7 +6,6 @@ IFS=$'\n\t'
 git submodule update --init --recursive
 
 pipenv install
-pipenv run pip3 install cortexpy
 
 mkdir -p lib
 mkdir -p opt

@@ -1,5 +1,7 @@
 import cortexpy.__main__
 from Bio import SeqIO
+
+import os
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
 
@@ -10,7 +12,7 @@ INITIAL_KMER = 'CCACACCACACCCACACACCCACACACCACACCACACACCACACCAC'
 
 
 def test_traverse_1kbp_contig(benchmark):
-    print_args = CortexpyCommandBuilder(unit_testing=True).traverse(graphs=[CHROM_GRAPH],
+    print_args = CortexpyCommandBuilder().traverse(graphs=[CHROM_GRAPH],
                                                                     initial_contig=INITIAL_KMER)
     benchmark(cortexpy.__main__.main, [str(a) for a in print_args])
 
@@ -20,4 +22,4 @@ def test_traverse_1kbp_contig_mccortex(benchmark, tmpdir):
     SeqIO.write([SeqRecord(Seq(INITIAL_KMER), id='0')], str(seq_file), 'fasta')
     print_args = MccortexCommandBuilder().subgraph(graphs=[CHROM_GRAPH],
                                                    initial_contig_file=str(seq_file))
-    benchmark(cortexpy.__main__.main, [str(a) for a in print_args])
+    benchmark(os.system, ' '.join([str(a) for a in print_args]))
