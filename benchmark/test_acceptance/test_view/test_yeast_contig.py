@@ -13,7 +13,7 @@ def test_cortexpy_view_graph(benchmark):
 
 
 def test_mccortex_view(benchmark):
-    print_args = MccortexCommandBuilder().view_command(graph=CHROM_GRAPH)
+    print_args = MccortexCommandBuilder().view(graph=CHROM_GRAPH)
     benchmark(os.system, ' '.join([str(a) for a in print_args]))
 
 

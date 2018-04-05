@@ -39,7 +39,7 @@ class CortexpyCommandBuilder(object):
         args = ['traverse', '-v']
         for g in graphs:
             args += ['--graph', g]
-        args += ['--out', '-']
+        args += ['--out', '/dev/null']
         args.append(initial_contig)
         return self.get_command(*args)
 
@@ -48,7 +48,14 @@ class CortexpyCommandBuilder(object):
 class MccortexCommandBuilder(object):
     mccortex_binary = attr.ib('mccortex63')
 
-    def view_command(self, *, graph, kmers=True):
+    def subgraph(self, *, graphs, initial_contig_file):
+        args = [self.mccortex_binary, 'subgraph', '--seq', initial_contig_file]
+        for graph in graphs:
+            args.append(graph)
+        args += ['--out', '/dev/null']
+        return args
+
+    def view(self, *, graph, kmers=True):
         args = [self.mccortex_binary, 'view']
         if kmers:
             args += '-k'
