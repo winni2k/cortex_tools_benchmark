@@ -4,6 +4,7 @@ import pytest
 from cortexpy.graph.parser.streaming import (
     kmer_generator_from_stream_and_header,
     kmer_list_generator_from_stream_and_header,
+    kmer_string_generator_from_stream_and_header,
 )
 from cortexpy.graph.parser.header import from_stream
 
@@ -24,6 +25,12 @@ def stream_kmer_lists(buffer, header):
         pass
 
 
+def stream_kmer_bytes(buffer, header):
+    buffer.seek(0)
+    for kmer_list in kmer_list_generator_from_stream_and_header(buffer, header):
+        kmer_list.tostring()
+
+
 def stream_kmer_tuples(buffer, header):
     buffer.seek(0)
     for kmer_list in kmer_list_generator_from_stream_and_header(buffer, header):
@@ -32,8 +39,8 @@ def stream_kmer_tuples(buffer, header):
 
 def stream_kmer_strings(buffer, header):
     buffer.seek(0)
-    for kmer_list in kmer_list_generator_from_stream_and_header(buffer, header):
-        ''.join(kmer_list)
+    for _ in kmer_string_generator_from_stream_and_header(buffer, header):
+        pass
 
 
 def stream_kmers(buffer, header):
@@ -79,6 +86,7 @@ GRAPHS = {
 FUNCS = {
     'pass': stream,
     'kmer_lists': stream_kmer_lists,
+    'kmer_bytes': stream_kmer_bytes,
     'kmer_tuples': stream_kmer_tuples,
     'kmer_strings': stream_kmer_strings,
     'kmers': stream_kmers,
