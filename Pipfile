@@ -9,8 +9,3 @@ verify_ssl = true
 cortexpy = "*"
 pytest-benchmark = "*"
 pytest-profiling = "*"
-
-
-[requires]
-
-python_version = "3.6"
