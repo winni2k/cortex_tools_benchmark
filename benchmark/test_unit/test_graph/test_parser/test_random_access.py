@@ -17,7 +17,7 @@ random.seed(42)
 
 
 def random_access_kmers(buffer, cache_size, kmer_strings):
-    ra = RandomAccess(buffer, kmer_cache_size=0, kmer_binary_search_cache_size=cache_size)
+    ra = RandomAccess(buffer, kmer_cache_size=0, kmer_cache_size_binary_search=cache_size)
     for kmer_string in kmer_strings:
         ra[kmer_string]
 
@@ -65,6 +65,6 @@ def test_graph_parser_ra_kmers_single(benchmark, graph_size, cached):
         cache_size = 0
     else:
         raise Exception()
-    ra = RandomAccess(buffer, kmer_cache_size=0, kmer_binary_search_cache_size=cache_size)
+    ra = RandomAccess(buffer, kmer_cache_size=0, binary_search_kmer_cache_size=cache_size)
     ra[kmer_string]
     benchmark(random_access_single_kmer, ra, kmer_string)
