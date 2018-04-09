@@ -13,7 +13,14 @@ INITIAL_KMER = 'CCACACCACACCCACACACCCACACACCACACCACACACCACACCAC'
 
 def test_traverse_1kbp_contig(benchmark):
     print_args = CortexpyCommandBuilder().traverse(graphs=[CHROM_GRAPH],
-                                                                    initial_contig=INITIAL_KMER)
+                                                   initial_contig=INITIAL_KMER)
+    benchmark(cortexpy.__main__.main, [str(a) for a in print_args])
+
+
+def test_traverse_1kbp_contig_with_cache(benchmark):
+    print_args = CortexpyCommandBuilder().traverse(graphs=[CHROM_GRAPH],
+                                                   initial_contig=INITIAL_KMER)
+    print_args += ['--binary-search-cache-size', 1024]
     benchmark(cortexpy.__main__.main, [str(a) for a in print_args])
 
 
