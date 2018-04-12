@@ -6,6 +6,7 @@ IFS=$'\n\t'
 git submodule update --init --recursive
 
 pipenv install
+pipenv run pip install $CORTEXPY_WHEEL
 
 mkdir -p lib
 mkdir -p opt
