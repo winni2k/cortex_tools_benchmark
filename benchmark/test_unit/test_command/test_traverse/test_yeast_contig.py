@@ -8,11 +8,17 @@ from Bio.SeqRecord import SeqRecord
 from benchmark.commands import CortexpyCommandBuilder, MccortexCommandBuilder
 
 CHROM_GRAPH = 'fixtures/yeast/NC_001133.9.1kbp.ctx'
+CHROM_GRAPH3 = 'fixtures/yeast/NC_001133.9.c3.1kbp.ctx'
 INITIAL_KMER = 'CCACACCACACCCACACACCCACACACCACACCACACACCACACCAC'
 
 
 def test_traverse_1kbp_contig(benchmark):
     print_args = CortexpyCommandBuilder().traverse(graphs=[CHROM_GRAPH],
+                                                   initial_contig=INITIAL_KMER)
+    benchmark(cortexpy.__main__.main, [str(a) for a in print_args])
+
+def test_traverse_1kbp_contig_three_colors(benchmark):
+    print_args = CortexpyCommandBuilder().traverse(graphs=[CHROM_GRAPH3],
                                                    initial_contig=INITIAL_KMER)
     benchmark(cortexpy.__main__.main, [str(a) for a in print_args])
 
