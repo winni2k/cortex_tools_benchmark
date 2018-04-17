@@ -20,7 +20,7 @@ $MCCORTEX build --force --sort --memory 2G -k 47 --sample yeast.chrom \
     --seq $FIXTURE_DIR/NC_001133.9.fa \
     $FIXTURE_DIR/NC_001133.9.ctx
 
-for SIZE in 1 2 4; do
+for SIZE in 1 2 4 8 16; do
     awk "{print substr(\$0, 1, $SIZE * 1000)}" < $FIXTURE_DIR/NC_001133.9.fa > $FIXTURE_DIR/NC_001133.9.${SIZE}kbp.fa
     $MCCORTEX build --force --sort --memory 2G -k 47 --sample yeast.chrom \
     --quiet \
