@@ -5,3 +5,4 @@ verify_ssl = true
 [packages]
 pytest-benchmark = "*"
 pytest-profiling = "*"
+memory_profiler = "*"
