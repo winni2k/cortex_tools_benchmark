@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "ceb7e5bd8b970c1c4b88af4479dbb3f1e0e28071bc688b33fa4c0eaf13561892"
+            "sha256": "2bed556c2751e56450a58a3022d13278c6afb19b912eb0fa434698bd0cc63030"
         },
         "pipfile-spec": 6,
         "requires": {},
@@ -33,6 +33,13 @@
             ],
             "version": "==2017.9.19"
         },
+        "graphviz": {
+            "hashes": [
+                "sha256:4958a19cbd8461757a08db308a4a15c3d586660417e1e364f0107d2fe481689f",
+                "sha256:7caa53f0b0be42c5f2eaa3f3d71dcc863b15bacceb5d531c2ad7519e1980ff82"
+            ],
+            "version": "==0.8.4"
+        },
         "memory-profiler": {
             "hashes": [
                 "sha256:e38627e66ca787f56ad2898699e07cb7ae2049a7dc075d535367cd882c417b9a"
@@ -46,6 +53,13 @@
                 "sha256:a18d870ef2ffca2b8463c0070ad17b5978056f403fb64e3f15fe62a52db21cc0"
             ],
             "version": "==4.2.0"
+        },
+        "objgraph": {
+            "hashes": [
+                "sha256:4a0c2c6268e10a9e8176ae054ff3faac9a432087801e1f95c3ebbe52550295a0",
+                "sha256:901dac7a4d73dd6c0e9697cf32676687f4e51d21b343543f795ec10461eb200e"
+            ],
+            "version": "==3.4.0"
         },
         "pluggy": {
             "hashes": [
