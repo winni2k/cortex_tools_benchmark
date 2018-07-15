@@ -19,7 +19,7 @@ def build_traverse_command(*, graphs, initial_kmers, out, colors=None):
 @attr.s(slots=True)
 class CortexpyCommandBuilder(object):
     def get_command(self, *args):
-        return list(args)
+        return [str(a) for a in args]
 
     def view_graph(self, *, graph):
         return self.get_command('view', 'graph', graph)
@@ -34,10 +34,17 @@ class CortexpyCommandBuilder(object):
             args += colors
         return self.get_command(*args)
 
+    def prune(self, *, graph, min_tip_length, out='/dev/null'):
+        args = ['prune', graph, '--remove-tips', min_tip_length, '--out', out]
+        return self.get_command(*args)
+
 
 @attr.s(slots=True)
 class MccortexCommandBuilder(object):
     mccortex_binary = attr.ib('mccortex63')
+
+    def get_command(self, args):
+        return [str(a) for a in [self.mccortex_binary] + args]
 
     def subgraph(self, *, graphs, initial_contig_file):
         args = [self.mccortex_binary, 'subgraph', '--seq', initial_contig_file]
@@ -52,6 +59,10 @@ class MccortexCommandBuilder(object):
             args += '-k'
         args += graph
         return args
+
+    def clean(self, *graphs, tips=0, unitigs=0, out='/devl/null'):
+        args = ['clean'] + list(graphs) + [f'--tips={tips}', f'--unitigs={unitigs}', '--out', out]
+        return self.get_command(args)
 
 
 @attr.s(slots=True)
