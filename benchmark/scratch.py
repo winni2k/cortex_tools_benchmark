@@ -21,7 +21,7 @@ def test_traverse_1kbp_contig_one_color(benchmark):
     def something():  # unnecessary function call
         cortexpy.__main__.main([str(a) for a in print_args])
 
-    benchmark.pedantic(something, iterations=1, rounds=1, warmup_rounds=1)
+    benchmark.pedantic(something, iterations=1, rounds=5, warmup_rounds=1)
 
 
 def test_kmer_memory_usage():
@@ -34,10 +34,13 @@ def test_kmer_memory_usage():
                 tr.print_diff()
                 ra_generator = iter(ra.values())
                 tr.print_diff()
+                print('10 kmers')
                 kmers = list(islice(ra_generator, 10))
                 tr.print_diff()
+                print('100 kmers')
                 kmers2 = list(islice(ra_generator, 100))
                 tr.print_diff()
+                print('1000 kmers')
                 kmers3 = list(islice(ra_generator, 1000))
                 tr.print_diff()
                 print('kmer.kmer')
