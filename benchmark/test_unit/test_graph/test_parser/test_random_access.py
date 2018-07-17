@@ -16,6 +16,18 @@ INITIAL_KMER = 'CCACACCACACCCACACACCCACACACCACACCACACACCACACCAC'
 random.seed(42)
 
 
+def stream_kmer_strings(buffer, cache_size):
+    ra = RandomAccess(buffer, kmer_cache_size=cache_size)
+    for kmer_string in ra:
+        pass
+
+
+def stream_kmers(buffer, cache_size):
+    ra = RandomAccess(buffer, kmer_cache_size=cache_size)
+    for kmer in ra.values():
+        kmer.kmer
+
+
 def random_access_kmers(buffer, cache_size, kmer_strings):
     ra = RandomAccess(buffer, kmer_cache_size=cache_size)
     for kmer_string in kmer_strings:
@@ -68,3 +80,19 @@ def test_graph_parser_ra_kmers_single(benchmark, graph_size, cached):
     ra = RandomAccess(buffer, kmer_cache_size=cache_size)
     ra[kmer_string]
     benchmark(random_access_single_kmer, ra, kmer_string)
+
+
+@pytest.mark.parametrize('graph_size,cached,stream_func',
+                         product(GRAPHS.keys(), ['cache', 'nocache'],
+                                 [stream_kmer_strings, stream_kmers]))
+def test_graph_parser_ra_iter(benchmark, graph_size, cached, stream_func):
+    graph_info = GRAPHS[graph_size]
+    buffer = io.BytesIO(open(graph_info[0], 'rb').read())
+    if cached == 'cache':
+        cache_size = graph_info[1]
+    elif cached == 'nocache':
+        cache_size = 0
+    else:
+        raise Exception()
+    benchmark.pedantic(stream_func, args=(buffer, cache_size), rounds=3,
+                       warmup_rounds=1)
