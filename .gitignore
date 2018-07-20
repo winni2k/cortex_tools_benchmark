@@ -102,3 +102,4 @@ ENV/
 .benchmarks
 prof/
 scratch/
+pytest.lprof

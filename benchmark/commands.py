@@ -24,6 +24,9 @@ class CortexpyCommandBuilder(object):
     def view_graph(self, *, graph):
         return self.get_command('view', 'graph', graph)
 
+    def view_traversal(self, *, graph, out='/dev/null'):
+        return self.get_command('view', 'traversal', graph, '--out', out)
+
     def traverse(self, *, graphs, initial_contig, out='/dev/null', colors=None):
         args = ['traverse', '-v', initial_contig]
         for g in graphs:
