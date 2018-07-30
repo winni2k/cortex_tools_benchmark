@@ -27,7 +27,7 @@ class CortexpyCommandBuilder(object):
     def view_traversal(self, *, graph, out='/dev/null'):
         return self.get_command('view', 'traversal', graph, '--out', out)
 
-    def traverse(self, *, graphs, initial_contig, out='/dev/null', colors=None):
+    def traverse(self, *, graphs, initial_contig, out='/dev/null', colors=None, cache_size=None):
         args = ['traverse', '-v', initial_contig]
         for g in graphs:
             args += ['--graphs', g]
@@ -35,6 +35,8 @@ class CortexpyCommandBuilder(object):
         if colors:
             args.append('--colors')
             args += colors
+        if cache_size is not None:
+            args += ['--binary-search-cache-size', cache_size]
         return self.get_command(*args)
 
     def prune(self, *, graph, min_tip_length, out='/dev/null'):

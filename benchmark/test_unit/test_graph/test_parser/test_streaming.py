@@ -10,6 +10,7 @@ from cortexpy.graph.parser.header import from_stream
 
 CHROM_GRAPH_1KB = 'fixtures/yeast/NC_001133.9.1kbp.ctx'
 CHROM_GRAPH_4KB = 'fixtures/yeast/NC_001133.9.4kbp.ctx'
+CHROM_GRAPH_16KB = 'fixtures/yeast/NC_001133.9.16kbp.ctx'
 INITIAL_KMER = 'CCACACCACACCCACACACCCACACACCACACCACACACCACACCAC'
 
 
@@ -80,7 +81,8 @@ def stream_kmers_and_coverage_and_edges(buffer, header):
 
 GRAPHS = {
     '1kb': CHROM_GRAPH_1KB,
-    '4kb': CHROM_GRAPH_4KB
+    '4kb': CHROM_GRAPH_4KB,
+    '16kb': CHROM_GRAPH_16KB
 }
 
 FUNCS = {
