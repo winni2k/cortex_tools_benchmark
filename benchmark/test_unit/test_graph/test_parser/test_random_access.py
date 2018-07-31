@@ -3,15 +3,16 @@ from itertools import product
 import random
 
 import pytest
-from cortexpy.graph.parser import RandomAccess
+from cortexpy.graph.parser.random_access import RandomAccess
 from cortexpy.graph.parser.streaming import (
     kmer_string_generator_from_stream
 )
 
 CHROM_GRAPH = 'fixtures/yeast/NC_001133.9.ctx'
 CHROM_GRAPH_1KB = 'fixtures/yeast/NC_001133.9.1kbp.ctx'
-CHROM_GRAPH_2KB = 'fixtures/yeast/NC_001133.9.2kbp.ctx'
+#CHROM_GRAPH_2KB = 'fixtures/yeast/NC_001133.9.2kbp.ctx'
 CHROM_GRAPH_4KB = 'fixtures/yeast/NC_001133.9.4kbp.ctx'
+CHROM_GRAPH_16KB = 'fixtures/yeast/NC_001133.9.4kbp.ctx'
 INITIAL_KMER = 'CCACACCACACCCACACACCCACACACCACACCACACACCACACCAC'
 random.seed(42)
 
@@ -31,7 +32,8 @@ def stream_kmers(buffer, cache_size):
 def random_access_kmers(buffer, cache_size, kmer_strings):
     ra = RandomAccess(buffer, kmer_cache_size=cache_size)
     for kmer_string in kmer_strings:
-        ra[kmer_string]
+        kmer = ra[kmer_string]
+        kmer.kmer
 
 
 def random_access_single_kmer(ra, kmer_string):
@@ -40,8 +42,8 @@ def random_access_single_kmer(ra, kmer_string):
 
 GRAPHS = {
     '1kb': (CHROM_GRAPH_1KB, 1024),
-    '2kb': (CHROM_GRAPH_2KB, 2048),
     '4kb': (CHROM_GRAPH_4KB, 4096),
+    '16kb': (CHROM_GRAPH_16KB, 16384),
 }
 
 ALL_GRAPHS = GRAPHS.copy()

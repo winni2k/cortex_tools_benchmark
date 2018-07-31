@@ -6,7 +6,7 @@ from cortexpy.graph.parser.streaming import (
     kmer_list_generator_from_stream_and_header,
     kmer_string_generator_from_stream_and_header,
 )
-from cortexpy.graph.parser.header import from_stream
+from cortexpy.graph.parser.header import Header
 
 CHROM_GRAPH_1KB = 'fixtures/yeast/NC_001133.9.1kbp.ctx'
 CHROM_GRAPH_4KB = 'fixtures/yeast/NC_001133.9.4kbp.ctx'
@@ -105,6 +105,6 @@ def test_graph_parser_streaming(benchmark, graph_size, func_type):
     graph = GRAPHS[graph_size]
     func = FUNCS[func_type]
     buffer = io.BytesIO(open(graph, 'rb').read())
-    header = from_stream(buffer)
+    header = Header.from_stream(buffer)
     buffer = io.BytesIO(buffer.read())
     benchmark(func, buffer, header)

@@ -10,7 +10,7 @@ from benchmark.commands import CortexpyCommandBuilder, MccortexCommandBuilder
 from pympler import summary, muppy, tracker, refbrowser
 
 from cortexpy.graph.parser import RandomAccess
-from cortexpy.graph.parser.header import from_stream
+from cortexpy.graph.parser.header import Header
 from cortexpy.graph.parser.streaming import kmer_generator_from_stream_and_header
 
 CHROM_GRAPH = 'fixtures/yeast/NC_001133.9.1kbp.ctx'
@@ -40,7 +40,7 @@ def stream_kmers_and_coverage_and_edges(buffer, header):
 def test_cython_speed():
     graph = 'fixtures/yeast/NC_001133.9.16kbp.ctx'
     buffer = io.BytesIO(open(graph, 'rb').read())
-    header = from_stream(buffer)
+    header = Header.from_stream(buffer)
     buffer = io.BytesIO(buffer.read())
 
     cProfile.runctx("stream_kmers_and_coverage_and_edges(buffer, header)", globals(), locals(), "Profile.prof")
