@@ -1,8 +1,9 @@
 import io
-from itertools import product
 import random
+from itertools import product
 
 import pytest
+
 from cortexpy.graph.parser.random_access import RandomAccess
 from cortexpy.graph.parser.streaming import (
     kmer_string_generator_from_stream
@@ -10,7 +11,7 @@ from cortexpy.graph.parser.streaming import (
 
 CHROM_GRAPH = 'fixtures/yeast/NC_001133.9.ctx'
 CHROM_GRAPH_1KB = 'fixtures/yeast/NC_001133.9.1kbp.ctx'
-#CHROM_GRAPH_2KB = 'fixtures/yeast/NC_001133.9.2kbp.ctx'
+# CHROM_GRAPH_2KB = 'fixtures/yeast/NC_001133.9.2kbp.ctx'
 CHROM_GRAPH_4KB = 'fixtures/yeast/NC_001133.9.4kbp.ctx'
 CHROM_GRAPH_16KB = 'fixtures/yeast/NC_001133.9.4kbp.ctx'
 INITIAL_KMER = 'CCACACCACACCCACACACCCACACACCACACCACACACCACACCAC'

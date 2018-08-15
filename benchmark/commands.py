@@ -19,7 +19,7 @@ def build_traverse_command(*, graphs, initial_kmers, out, colors=None):
 @attr.s(slots=True)
 class CortexpyCommandBuilder(object):
     def get_command(self, *args):
-        return [str(a) for a in args]
+        return ['cortexpy'] + [str(a) for a in args]
 
     def view_graph(self, *, graph):
         return self.get_command('view', 'graph', graph)
