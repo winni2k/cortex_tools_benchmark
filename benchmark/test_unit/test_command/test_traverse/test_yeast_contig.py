@@ -9,6 +9,7 @@ from benchmark.commands import CortexpyCommandBuilder, MccortexCommandBuilder
 
 CHROM_GRAPH = 'fixtures/yeast/NC_001133.9.1kbp.ctx'
 CHROM_GRAPH3 = 'fixtures/yeast/NC_001133.9.c3.1kbp.ctx'
+CHROM_GRAPH_16kb = 'fixtures/yeast/NC_001133.9.16kbp.ctx'
 INITIAL_KMER = 'CCACACCACACCCACACACCCACACACCACACCACACACCACACCAC'
 
 

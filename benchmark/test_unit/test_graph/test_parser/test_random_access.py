@@ -4,7 +4,7 @@ from itertools import product
 
 import pytest
 
-from cortexpy.graph.parser.random_access import RandomAccess
+from cortexpy.graph.parser.random_access import RandomAccess, SlurpedRandomAccess
 from cortexpy.graph.parser.streaming import (
     kmer_string_generator_from_stream
 )
@@ -13,7 +13,7 @@ CHROM_GRAPH = 'fixtures/yeast/NC_001133.9.ctx'
 CHROM_GRAPH_1KB = 'fixtures/yeast/NC_001133.9.1kbp.ctx'
 # CHROM_GRAPH_2KB = 'fixtures/yeast/NC_001133.9.2kbp.ctx'
 CHROM_GRAPH_4KB = 'fixtures/yeast/NC_001133.9.4kbp.ctx'
-CHROM_GRAPH_16KB = 'fixtures/yeast/NC_001133.9.4kbp.ctx'
+CHROM_GRAPH_16KB = 'fixtures/yeast/NC_001133.9.16kbp.ctx'
 INITIAL_KMER = 'CCACACCACACCCACACACCCACACACCACACCACACACCACACCAC'
 random.seed(42)
 
@@ -30,8 +30,9 @@ def stream_kmers(buffer, cache_size):
         kmer.kmer
 
 
-def random_access_kmers(buffer, cache_size, kmer_strings):
-    ra = RandomAccess(buffer, kmer_cache_size=cache_size)
+def random_access_kmers(buffer, cache_size, kmer_strings, ra_constructor):
+    buffer.seek(0)
+    ra = ra_constructor(buffer, kmer_cache_size=cache_size)
     for kmer_string in kmer_strings:
         kmer = ra[kmer_string]
         kmer.kmer
@@ -52,19 +53,24 @@ ALL_GRAPHS['all'] = (CHROM_GRAPH, 262144)
 
 
 @pytest.mark.parametrize('graph_size,cached',
-                         product(GRAPHS.keys(), ['cache', 'nocache']))
+                         product(GRAPHS.keys(), ['cache', 'nocache', 'slurp']))
 def test_graph_parser_ra_kmers(benchmark, graph_size, cached):
     graph_info = GRAPHS[graph_size]
     buffer = io.BytesIO(open(graph_info[0], 'rb').read())
     kmer_strings = [string for string in kmer_string_generator_from_stream(buffer)]
     random.shuffle(kmer_strings)
+    ra_constructor = RandomAccess
     if cached == 'cache':
         cache_size = graph_info[1]
     elif cached == 'nocache':
         cache_size = 0
+    elif cached == 'slurp':
+        cache_size = 0
+        ra_constructor = SlurpedRandomAccess.from_handle
     else:
         raise Exception()
-    benchmark.pedantic(random_access_kmers, args=(buffer, cache_size, kmer_strings), rounds=3,
+    benchmark.pedantic(random_access_kmers,
+                       args=(buffer, cache_size, kmer_strings, ra_constructor), rounds=3,
                        warmup_rounds=1)
 
 
