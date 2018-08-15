@@ -1,12 +1,14 @@
 import io
 import itertools
+
 import pytest
+
+from cortexpy.graph.parser.header import Header
 from cortexpy.graph.parser.streaming import (
     kmer_generator_from_stream_and_header,
     kmer_list_generator_from_stream_and_header,
     kmer_string_generator_from_stream_and_header,
 )
-from cortexpy.graph.parser.header import Header
 
 CHROM_GRAPH_1KB = 'fixtures/yeast/NC_001133.9.1kbp.ctx'
 CHROM_GRAPH_4KB = 'fixtures/yeast/NC_001133.9.4kbp.ctx'
@@ -79,6 +81,16 @@ def stream_kmers_and_coverage_and_edges(buffer, header):
         kmer.edges
 
 
+def stream_kmers_and_coverage_and_edges_and_add_to_list(buffer, header):
+    buffer.seek(0)
+    kmers = []
+    for kmer in kmer_generator_from_stream_and_header(buffer, header):
+        kmer.kmer
+        kmer.coverage
+        kmer.edges
+        kmers.append(kmer)
+
+
 GRAPHS = {
     '1kb': CHROM_GRAPH_1KB,
     '4kb': CHROM_GRAPH_4KB,
@@ -96,6 +108,7 @@ FUNCS = {
     'kmers+cov': stream_kmers_and_coverage,
     'kmers+edges': stream_kmers_and_edges,
     'kmers+cov+edges': stream_kmers_and_coverage_and_edges,
+    'kmers+cov+edges+list': stream_kmers_and_coverage_and_edges_and_add_to_list,
 }
 
 
