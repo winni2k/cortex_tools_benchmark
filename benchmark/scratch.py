@@ -1,15 +1,15 @@
-from contextlib import redirect_stdout
-
-from itertools import islice
-import pstats, cProfile
-
+import cProfile
 import io
+import pstats
+from contextlib import redirect_stdout
+from itertools import islice
+
+import pytest
+from benchmark.commands import CortexpyCommandBuilder
+from pympler import tracker
 
 import cortexpy.__main__
-from benchmark.commands import CortexpyCommandBuilder, MccortexCommandBuilder
-from pympler import summary, muppy, tracker, refbrowser
-
-from cortexpy.graph.parser import RandomAccess
+from cortexpy.graph.parser.random_access import RandomAccess
 from cortexpy.graph.parser.header import Header
 from cortexpy.graph.parser.streaming import kmer_generator_from_stream_and_header
 
@@ -17,6 +17,7 @@ CHROM_GRAPH = 'fixtures/yeast/NC_001133.9.1kbp.ctx'
 CHROM_GRAPH3 = 'fixtures/yeast/NC_001133.9.c3.1kbp.ctx'
 CHROM_GRAPH_ALL = 'fixtures/yeast/NC_001133.9.1kbp.ctx'
 INITIAL_KMER = 'CCACACCACACCCACACACCCACACACCACACCACACACCACACCAC'
+PROBLEMATIC_GRAPH = 'fixtures/problematic/g3238.traverse.ctx'
 
 
 def test_traverse_1kbp_contig_one_color(benchmark):
@@ -43,7 +44,8 @@ def test_cython_speed():
     header = Header.from_stream(buffer)
     buffer = io.BytesIO(buffer.read())
 
-    cProfile.runctx("stream_kmers_and_coverage_and_edges(buffer, header)", globals(), locals(), "Profile.prof")
+    cProfile.runctx("stream_kmers_and_coverage_and_edges(buffer, header)", globals(), locals(),
+                    "Profile.prof")
     s = pstats.Stats("Profile.prof")
     raise Exception(s.strip_dirs().sort_stats("time").print_stats())
 
@@ -79,3 +81,9 @@ def test_kmer_memory_usage():
                 for kmer in kmers3:
                     kmer.edges
                 tr.print_diff()
+
+
+@pytest.mark.timeout(20)
+def test_problematic_graph(benchmark):
+    print_args = CortexpyCommandBuilder().view_traversal(graph=PROBLEMATIC_GRAPH)
+    benchmark(cortexpy.__main__.main, [str(a) for a in print_args])
