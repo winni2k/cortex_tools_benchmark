@@ -21,7 +21,7 @@ PROBLEMATIC_GRAPH = 'fixtures/problematic/g3238.traverse.ctx'
 
 
 def test_traverse_1kbp_contig_one_color(benchmark):
-    print_args = CortexpyCommandBuilder().traverse(graphs=[CHROM_GRAPH],
+    print_args = CortexpyCommandBuilder().subgraph(graphs=[CHROM_GRAPH],
                                                    initial_contig=INITIAL_KMER)
 
     def something():  # unnecessary function call
